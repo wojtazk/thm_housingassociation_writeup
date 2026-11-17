@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="screeny/blok_logo_512.png" alt="Blok" width="180"/>
+<img src="screeny/blok_logo_1024.png" alt="Blok" width="180"/>
 
 # Blok - Writeup
 
