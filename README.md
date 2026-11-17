@@ -6,6 +6,8 @@
 
 **Rocky Linux 9 · Difficulty: Hard**
 
+https://tryhackme.com/room/housingassociation
+
 Five exposed services, two tenant keys, an SSTI panel that turns into a shell,
 a SOCKS pivot to loopback-only services, and **two independent paths to root**.
 
